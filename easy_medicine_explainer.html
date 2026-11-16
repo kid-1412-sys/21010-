@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>쉬운 의약품 설명</title>
+<style>
+:root{--navy:#17324d;--blue:#2867a8;--pale:#eef5fb;--line:#d8e1e9;--ink:#263746;--muted:#647586;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:#f5f8fb;color:var(--ink);font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif;line-height:1.6}
+header{background:linear-gradient(120deg,#17324d,#2867a8);color:white;padding:34px 20px}
+.wrap{max-width:1000px;margin:auto;padding:0 18px}header h1{margin:0 0 8px;font-size:clamp(25px,4vw,34px)}header p{margin:0;color:#e3edf7}
+main{padding:26px 0 50px}.notice{background:#fff8e8;border:1px solid #f0d99e;border-radius:12px;padding:13px 16px;margin-bottom:20px;font-size:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.panel{background:white;border:1px solid var(--line);border-radius:15px;padding:20px;box-shadow:0 3px 12px #17324d0a}
+h2{font-size:18px;margin:0 0 12px;color:var(--navy)}label{display:block;font-weight:650;margin:13px 0 6px}
+input,textarea,select{width:100%;border:1px solid #cbd6e0;border-radius:9px;padding:11px 12px;font:inherit;background:white;color:var(--ink)}
+textarea{min-height:240px;resize:vertical}input:focus,textarea:focus,select:focus{outline:3px solid #d9eaff;border-color:var(--blue)}
+button{border:0;border-radius:9px;background:var(--blue);color:white;padding:11px 17px;font:inherit;font-weight:650;cursor:pointer}
+button.secondary{background:#eaf1f7;color:var(--navy)}button:hover{filter:brightness(.96)}
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}.result{min-height:240px;white-space:pre-wrap;background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:14px}
+.small{font-size:13px;color:var(--muted)}.tag{display:inline-block;background:var(--pale);color:#245b8d;padding:3px 9px;border-radius:20px;font-size:12px;font-weight:650;margin-bottom:8px}
+.links{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}.links a{color:#205f9d;font-weight:600;text-decoration:none}.links a:hover{text-decoration:underline}
+footer{color:var(--muted);font-size:12px;text-align:center;padding:20px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}textarea{min-height:190px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><h1>쉬운 의약품 설명</h1><p>어려운 의약품 정보를 읽기 쉬운 표현으로 정리하는 학습용 시제품</p></div></header>
+<main class="wrap">
+<div class="notice"><strong>중요 안내</strong> 이 프로그램은 의약품 정보를 이해하기 쉽게 정리하는 시제품입니다. 실제 AI 의료 검증 시스템이 아니며, 복용 여부·용량·복용 방법을 판단하지 않습니다. 복용 전에는 반드시 의약품의 공식 설명서와 의료진·약사의 안내를 확인하세요.</div>
+<div class="grid">
+<section class="panel">
+<h2>① 의약품 정보 입력</h2>
+<label for="drug">의약품명 (선택)</label>
+<input id="drug" placeholder="예: 의약품 이름">
+<label for="category">정보 종류</label>
+<select id="category"><option>전체 설명</option><option>효능·효과</option><option>용법·용량</option><option>사용상 주의사항</option><option>이상반응</option></select>
+<label for="source">공식 설명서 내용 붙여넣기</label>
+<textarea id="source" placeholder="의약품안전나라 등에서 확인한 설명서 내용을 붙여넣으세요.&#10;&#10;예: 이 약은 위산 분비를 억제하여 위궤양 및 역류성 식도염의 치료에 사용한다."></textarea>
+<div class="actions"><button id="convert">쉬운 표현으로 정리</button><button class="secondary" id="example">예시 불러오기</button><button class="secondary" id="clear">초기화</button></div>
+<p class="small">현재 버전은 사전 기반 표현 변환 시제품입니다. 생성형 AI·OCR 기능은 연결되어 있지 않습니다.</p>
+</section>
+<section class="panel">
+<h2>② 쉬운 설명 결과</h2>
+<span class="tag">변환 결과</span>
+<div id="result" class="result" aria-live="polite">왼쪽에 의약품 설명서 내용을 입력한 뒤 ‘쉬운 표현으로 정리’를 눌러 주세요.</div>
+<div class="actions"><button class="secondary" id="copy">결과 복사</button></div>
+<h2 style="margin-top:22px">③ 원문 확인</h2>
+<p class="small">입력한 내용과 공식 자료를 반드시 대조하세요.</p>
+<div class="links">
+<a href="https://nedrug.mfds.go.kr/searchDrug" target="_blank" rel="noopener">의약품안전나라 의약품 정보검색 ↗</a>
+<a href="https://nedrug.mfds.go.kr/searchEasyDrug" target="_blank" rel="noopener">의약품안전나라 e약은요 ↗</a>
+<a href="https://www.health.kr/" target="_blank" rel="noopener">약학정보원 ↗</a>
+</div>
+</section>
+</div>
+<section class="panel" style="margin-top:18px">
+<h2>이용 시 확인할 점</h2>
+<ul>
+<li>용량, 횟수, 투여 경로, 복용 기간, 금기 및 경고 문구는 이 프로그램이 임의로 바꾸지 않도록 원문을 유지합니다.</li>
+<li>전문 용어를 쉬운 말로 바꾸더라도 원문의 의미가 정확히 전달되는지 사람이 확인해야 합니다.</li>
+<li>입력한 내용은 이 브라우저 화면에서만 처리되며 별도의 서버로 전송하지 않습니다.</li>
+</ul>
+</section>
+</main>
+<footer>학습·시연용 프로토타입 · 실제 의약품 복용 판단에 사용하지 마세요.</footer>
+<script>
+const $=id=>document.getElementById(id);
+const glossary=[
+ [/위산 분비를 억제/g,"위산이 만들어지는 것을 줄여"],
+ [/위궤양/g,"위 안쪽에 상처가 생기는 질환"],
+ [/역류성 식도염/g,"위산이나 위 내용물이 식도로 올라와 염증이 생기는 질환"],
+ [/효능·효과/g,"이 약을 사용해 도움을 받을 수 있는 증상이나 질환"],
+ [/이상반응/g,"약을 사용한 뒤 나타날 수 있는 원하지 않는 반응"],
+ [/금기/g,"사용하면 안 되는 경우"],
+ [/투여/g,"약을 사용하거나 몸에 넣는 것"],
+ [/경구 투여/g,"입으로 약을 먹는 것"],
+ [/부종/g,"몸의 일부가 붓는 증상"],
+ [/졸음/g,"졸린 느낌"]
+];
+function simplify(text){
+ let out=text;
+ for(const [pattern,replacement] of glossary) out=out.replace(pattern,replacement);
+ return out;
+}
+$("example").addEventListener("click",()=>{
+ $("drug").value="예시 의약품";
+ $("category").value="효능·효과";
+ $("source").value="이 약은 위산 분비를 억제하여 위궤양 및 역류성 식도염의 치료에 사용한다.";
+ $("result").textContent="예시 내용을 불러왔습니다. ‘쉬운 표현으로 정리’를 눌러 결과를 확인하세요.";
+});
+$("convert").addEventListener("click",()=>{
+ const raw=$("source").value.trim();
+ if(!raw){$("result").textContent="먼저 공식 설명서 내용을 입력해 주세요.";return;}
+ const name=$("drug").value.trim();
+ const kind=$("category").value;
+ const converted=simplify(raw);
+ $("result").textContent=(name?`의약품명: ${name}\n`:"")+`정보 종류: ${kind}\n\n[쉬운 표현]\n${converted}\n\n[원문 대조]\n${raw}\n\n※ 이 결과는 사전 기반 표현 치환입니다. 문맥에 따라 의미가 부정확할 수 있으므로 원문과 반드시 비교하세요. 용량·복용법·주의사항은 약사 또는 의료진에게 확인하세요.`;
+});
+$("clear").addEventListener("click",()=>{$("drug").value="";$("source").value="";$("result").textContent="왼쪽에 의약품 설명서 내용을 입력한 뒤 ‘쉬운 표현으로 정리’를 눌러 주세요.";});
+$("copy").addEventListener("click",async()=>{
+ const value=$("result").textContent;
+ try{await navigator.clipboard.writeText(value);$("copy").textContent="복사 완료";setTimeout(()=>$("copy").textContent="결과 복사",1500);}
+ catch(e){$("copy").textContent="복사할 수 없음";}
+});
+</script>
+</body>
+</html>
